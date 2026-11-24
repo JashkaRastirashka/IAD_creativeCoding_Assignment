@@ -1,56 +1,79 @@
-let buffer;
-let brightness2D = []; // brightness2D[x][y] is how bright the word is at one pixel of the buffer
+let videoId = "watch?v=1A8HztiVc5M";
+let message = "HELLO";
+let mouseY = 0;
 
-async function setup() {
-    createCanvas(windowWidth, windowHeight);
+let video = document.getElementById("video");
+let canvas = document.getElementById("canvas");
+let ctx = canvas.getContext("2d"); // the "pen" we draw with
 
-    // a small invisible canvas: the word is drawn on it once, and only used as data
-    buffer = createGraphics(120, 60);
-    buffer.background(0);
-    buffer.fill(255);
-    buffer.textStyle(BOLD);
-    buffer.textAlign(CENTER, CENTER);
-    buffer.textSize(40);
-    buffer.text("Type", buffer.width / 2, buffer.height / 2);
+video.src =
+  "https://www.youtube.com/embed/" + videoId +
+  "?autoplay=1&mute=1&controls=0&loop=1&playlist=" + videoId + "&playsinline=1";
 
-    // blur the word, so the edges of the letters become soft slopes instead of hard steps
-    // filter() is asynchronous in p5.js 2.x, so await it before reading pixels
-    await buffer.filter(BLUR, 1.2);
-
-    // read the brightness of every pixel once: [0] is the red channel, 0 for black and 255 for white
-    for (let x = 0; x < buffer.width; x++) {
-        brightness2D[x] = [];
-        for (let y = 0; y < buffer.height; y++) {
-            brightness2D[x][y] = buffer.get(x, y)[0];
-        }
-    }
+// replaces p5's map()
+function map(value, inMin, inMax, outMin, outMax) {
+  return outMin + (value - inMin) / (inMax - inMin) * (outMax - outMin);
 }
 
+// replaces p5's constrain()
+function constrain(value, low, high) {
+  return Math.min(Math.max(value, low), high);
+}
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  // make the 16:9 video cover the whole window
+  let w, h;
+  if (window.innerWidth / window.innerHeight > 16 / 9) {
+    w = window.innerWidth;
+    h = w * 9 / 16;
+  } else {
+    h = window.innerHeight;
+    w = h * 16 / 9;
+  }
+  video.style.width = w + "px";
+  video.style.height = h + "px";
+  video.style.left = (window.innerWidth - w) / 2 + "px";
+  video.style.top = (window.innerHeight - h) / 2 + "px";
+}
+
+// replaces p5's built-in mouseY
+window.addEventListener("mousemove", function (event) {
+  mouseY = event.clientY;
+});
+window.addEventListener("resize", resize);
+
+// replaces p5's draw(): runs once per frame
 function draw() {
-    background(0);
-    stroke(255);
-    strokeWeight(2);
-    noFill();
+  ctx.clearRect(0, 0, canvas.width, canvas.height); // transparent again
 
-    let stepX = width / buffer.width;   // distance between two points of a line
-    let stepY = height / buffer.height; // distance between two lines
+  let size = map(mouseY, 0, canvas.height, 20, canvas.height * 0.4);
+  size = constrain(size, 20, canvas.height * 0.4);
 
-    // mouseX sets how high the word is pushed up, mouseY sets how strongly the lines wobble
-    let amount = map(mouseX, 0, width, 0, 40);
-    let wobble = map(mouseY, 0, height, 0, 20);
+  ctx.fillStyle = "white";
+  ctx.font = "bold " + size + "px sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(message, canvas.width / 2, canvas.height / 2);
 
-    // one line for every row of the buffer
-    for (let y = 0; y < buffer.height; y++) {
-        beginShape();
-        for (let x = 0; x < buffer.width; x++) {
-            // bright pixels (the letters) push the line upward
-            let lift = brightness2D[x][y] / 255 * amount;
-
-            // smaller steps in noise() make the wobble slower and smoother
-            lift += noise(x * 0.05, y * 0.05, frameCount * 0.01) * wobble;
-
-            vertex(x * stepX, y * stepY - lift);
-        }
-        endShape();
-    }
+  requestAnimationFrame(draw); // ask the browser to call draw again
 }
+
+resize();
+draw();
+
+
+// 3D model von einem Fernseher
+
+
+// mouse X = typeface thin or thick
+// mouse Y = text bigger or smaller
+
+// mousePressed = typeface change
+
+// buttonPressed = switch video
+
+// load video im hintergrund (embedded)
+// bevor es laeuft TV static + Slice of Life Logo
