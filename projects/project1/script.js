@@ -1,79 +1,174 @@
-let videoId = "watch?v=1A8HztiVc5M";
-let message = "HELLO";
+// ---------- put your YouTube video IDs here ----------
+// For https://www.youtube.com/watch?v=dQw4w9WgXcQ the ID is dQw4w9WgXcQ
+const VIDEO_ID_1 = '1A8HztiVc5M';
+const VIDEO_ID_2 = 'nhBpBGhet4s&t=695s';
+
+const fonts = ['Arial', 'Georgia', 'Courier New', 'Impact', 'Verdana'];
+
+let helloCount = 1;
+let stamps = [];
+let currentVideo = 1;
+
+let mouseX = 0;
 let mouseY = 0;
 
-let video = document.getElementById("video");
-let canvas = document.getElementById("canvas");
-let ctx = canvas.getContext("2d"); // the "pen" we draw with
+let player1, player2;
+let player1Box, player2Box;
 
-video.src =
-  "https://www.youtube.com/embed/" + videoId +
-  "?autoplay=1&mute=1&controls=0&loop=1&playlist=" + videoId + "&playsinline=1";
-
-// replaces p5's map()
+// ---------- helpers ----------
 function map(value, inMin, inMax, outMin, outMax) {
-  return outMin + (value - inMin) / (inMax - inMin) * (outMax - outMin);
+  return outMin + ((value - inMin) / (inMax - inMin)) * (outMax - outMin);
 }
 
-// replaces p5's constrain()
-function constrain(value, low, high) {
-  return Math.min(Math.max(value, low), high);
+function constrain(value, min, max) {
+  return Math.min(Math.max(value, min), max);
 }
 
-function resize() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-
-  // make the 16:9 video cover the whole window
-  let w, h;
-  if (window.innerWidth / window.innerHeight > 16 / 9) {
-    w = window.innerWidth;
-    h = w * 9 / 16;
-  } else {
-    h = window.innerHeight;
-    w = h * 16 / 9;
-  }
-  video.style.width = w + "px";
-  video.style.height = h + "px";
-  video.style.left = (window.innerWidth - w) / 2 + "px";
-  video.style.top = (window.innerHeight - h) / 2 + "px";
+function random(max) {
+  return Math.random() * max;
 }
 
-// replaces p5's built-in mouseY
-window.addEventListener("mousemove", function (event) {
-  mouseY = event.clientY;
+function createVideoBox(id) {
+  const box = document.createElement('div');
+  box.id = id;
+  box.style.width = '640px';
+  box.style.height = '480px';
+  box.style.margin = 'auto';
+  document.body.appendChild(box);
+  return box;
+}
+
+// ---------- DOM setup ----------
+player1Box = createVideoBox('player1');
+player2Box = createVideoBox('player2');
+player2Box.style.display = 'none';
+
+// Transparent layer that catches mouse events above the iframes
+const overlay = document.createElement('div');
+overlay.id = 'overlay';
+document.body.appendChild(overlay);
+
+// Moving text
+const hello = document.createElement('div');
+hello.textContent = 'HELLO ' + helloCount;
+Object.assign(hello.style, {
+  position: 'absolute',
+  color: 'red',
+  fontSize: '40px',
+  zIndex: '10',
+  pointerEvents: 'none',
+  whiteSpace: 'nowrap',
+  transform: 'translate(-50%, -50%)',
+  fontWeight: '100'
 });
-window.addEventListener("resize", resize);
+document.body.appendChild(hello);
 
-// replaces p5's draw(): runs once per frame
-function draw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height); // transparent again
+// ---------- YouTube IFrame API ----------
+const tag = document.createElement('script');
+tag.src = 'https://www.youtube.com/iframe_api';
+document.head.appendChild(tag);
 
-  let size = map(mouseY, 0, canvas.height, 20, canvas.height * 0.4);
-  size = constrain(size, 20, canvas.height * 0.4);
-
-  ctx.fillStyle = "white";
-  ctx.font = "bold " + size + "px sans-serif";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.fillText(message, canvas.width / 2, canvas.height / 2);
-
-  requestAnimationFrame(draw); // ask the browser to call draw again
+function makePlayer(elementId, videoId, autoplay) {
+  return new YT.Player(elementId, {
+    width: 640,
+    height: 480,
+    videoId: videoId,
+    playerVars: {
+      autoplay: autoplay ? 1 : 0,
+      controls: 0,
+      rel: 0,
+      playsinline: 1,
+      disablekb: 1
+    },
+    events: {
+      onReady: (e) => e.target.mute(),
+      // Manual loop: restart when the video ends
+      onStateChange: (e) => {
+        if (e.data === YT.PlayerState.ENDED) {
+          e.target.seekTo(0);
+          e.target.playVideo();
+        }
+      }
+    }
+  });
 }
 
-resize();
-draw();
+// The API calls this function automatically once it has loaded
+function onYouTubeIframeAPIReady() {
+  player1 = makePlayer('player1', VIDEO_ID_1, true);
+  player2 = makePlayer('player2', VIDEO_ID_2, false);
+}
 
+// ---------- mouse move ----------
+document.addEventListener('mousemove', (e) => {
+  mouseX = e.pageX;
+  mouseY = e.pageY;
 
-// 3D model von einem Fernseher
+  hello.style.left = mouseX + 'px';
+  hello.style.top = mouseY + 'px';
 
+  let weightValue = map(mouseX, 0, window.innerWidth, 100, 900);
+  weightValue = constrain(weightValue, 100, 900);
+  hello.style.fontWeight = Math.round(weightValue);
+});
 
-// mouse X = typeface thin or thick
-// mouse Y = text bigger or smaller
+// ---------- keyboard: random font and colour ----------
+document.addEventListener('keydown', () => {
+  hello.style.fontFamily = fonts[Math.floor(random(fonts.length))];
+  hello.style.color =
+    `rgb(${Math.floor(random(256))}, ${Math.floor(random(256))}, ${Math.floor(random(256))})`;
+});
 
-// mousePressed = typeface change
+// ---------- mouse: stamp text ----------
+document.addEventListener('mousedown', () => {
+  const stamp = document.createElement('div');
+  stamp.textContent = 'HELLO ' + helloCount;
 
-// buttonPressed = switch video
+  const cs = getComputedStyle(hello);
+  Object.assign(stamp.style, {
+    position: 'absolute',
+    left: mouseX + 'px',
+    top: mouseY + 'px',
+    transform: 'translate(-50%, -50%)',
+    color: cs.color,
+    fontSize: cs.fontSize,
+    fontWeight: cs.fontWeight,
+    fontFamily: cs.fontFamily,
+    whiteSpace: 'nowrap',
+    pointerEvents: 'none',
+    zIndex: '9'
+  });
 
-// load video im hintergrund (embedded)
-// bevor es laeuft TV static + Slice of Life Logo
+  document.body.appendChild(stamp);
+  stamps.push(stamp);
+
+  helloCount++;
+
+  // Switch video after five stamps
+  if (helloCount > 5) {
+    stamps.forEach((s) => s.remove());
+    stamps = [];
+
+    if (currentVideo === 1) {
+      player1.pauseVideo();
+      player1Box.style.display = 'none';
+
+      player2Box.style.display = 'block';
+      player2.playVideo();
+
+      currentVideo = 2;
+    } else {
+      player2.pauseVideo();
+      player2Box.style.display = 'none';
+
+      player1Box.style.display = 'block';
+      player1.playVideo();
+
+      currentVideo = 1;
+    }
+
+    helloCount = 1;
+  }
+
+  hello.textContent = 'HELLO ' + helloCount;
+});
