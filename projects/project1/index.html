@@ -5,11 +5,110 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hello</title>
   <style>
-    body { margin: 0; cursor: none; min-height: 100vh; }
-    #overlay { position: fixed; inset: 0; z-index: 5; cursor: none; }
+    @font-face {
+      font-family: 'TWK Ghost Hairline';
+      src: url('fonts/TWKGhost-Hairline.woff2') format('woff2');
+      font-weight: 100;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'TWK Ghost Thin';
+      src: url('fonts/TWKGhost-Thin.woff2') format('woff2');
+      font-weight: 100;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'TWK Ghost Light';
+      src: url('fonts/TWKGhost-Light.woff2') format('woff2');
+      font-weight: 300;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'TWK Ghost Regular';
+      src: url('fonts/TWKGhost-Regular.woff2') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'TWK Ghost Medium';
+      src: url('fonts/TWKGhost-Medium.woff2') format('woff2');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'TWK Ghost Bold';
+      src: url('fonts/TWKGhost-Bold.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'TWK Ghost Black';
+      src: url('fonts/TWKGhost-Black.woff2') format('woff2');
+      font-weight: 900;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'TWK Ghost Hairline Italic';
+      src: url('fonts/TWKGhost-HairlineItalic.woff2') format('woff2');
+      font-weight: 100;
+      font-style: italic;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'TWK Ghost Thin Italic';
+      src: url('fonts/TWKGhost-ThinItalic.woff2') format('woff2');
+      font-weight: 100;
+      font-style: italic;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'TWK Ghost Light Italic';
+      src: url('fonts/TWKGhost-LightItalic.woff2') format('woff2');
+      font-weight: 300;
+      font-style: italic;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'TWK Ghost Italic';
+      src: url('fonts/TWKGhost-Italic.woff2') format('woff2');
+      font-weight: 400;
+      font-style: italic;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'TWK Ghost Medium Italic';
+      src: url('fonts/TWKGhost-MediumItalic.woff2') format('woff2');
+      font-weight: 500;
+      font-style: italic;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'TWK Ghost Bold Italic';
+      src: url('fonts/TWKGhost-BoldItalic.woff2') format('woff2');
+      font-weight: 700;
+      font-style: italic;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'TWK Ghost Black Italic';
+      src: url('fonts/TWKGhost-BlackItalic.woff2') format('woff2');
+      font-weight: 900;
+      font-style: italic;
+      font-display: swap;
+    }
+    body { margin: 0; cursor: none; min-height: 100vh; overflow: hidden; background: black; }
+    #overlay { position: fixed; inset: 0; z-index: 5; cursor: none; pointer-events: none; }
+	.offscreen { position: absolute; left: -9999px; top: 0; }
   </style>
 </head>
 <body>
-  <script src="sketch.js"></script>
+  <script src="script.js?v=project1-content-update"></script>
 </body>
 </html>

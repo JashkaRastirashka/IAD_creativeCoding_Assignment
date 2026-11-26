@@ -1,0 +1,42 @@
+# content is an optional local page path or URL; blank opens the placeholder.
+# video is an optional ID from project1/videos.csv; when set, only that video is played.
+# Content and video apply to every colour pin in the row.
+
+name,lon,lat,colors,content,video
+
+#RED (d60036)
+ZHdK,8.5148, 47.3907, #d60036, https://interactiondesign.zhdk.ch/
+Polly Films,13.4505, 52.5015, #d60036, https://pollyfilms.de/
+University Leipzig, 12.3797, 51.3392, #d60036, https://www.uni-leipzig.de/
+Officina Città, 12.4250, 41.8670, #d60036, https://dergrossegarten.de/
+
+#PURPLE (b319ab)
+Slice of Life, 14.4130, 50.0812, #b319ab, https://jashka.xyz/portfolio/slice-of-life/
+Always Lovers, 15.5640, 54.1930, #b319ab, https://alwayslovers.online/
+Luckystar, 13.3883, 52.5489, #b319ab, https://jashka.xyz/portfolio/luckystar/
+FC/RM, 13.4132, 52.5219, #b319ab, https://jashka.xyz/portfolio/fc-rm/
+NFTU, 8.4705, 49.4985, #b319ab, https://jashka.xyz/portfolio/nftu/
+
+#BLUE (0057ba)
+Rooftops, 8.4705, 49.4985, #0057ba, ../project1/index.html?embed=1, dPxnq4Od_UQ
+Berlin - Tiergarten, 13.3501, 52.5145, #0057ba, ../project1/index.html?embed=1, F-OcIfLCtv0
+Berlin - Helmholtzkiez, 13.4210, 52.5435, #0057ba, ../project1/index.html?embed=1, 8fWwsTEDo58
+Rome - Garbatella, 12.4880, 41.8590, #0057ba, ../project1/index.html?embed=1, Zo0d9FLJf3k
+Rome - San Lorenzo, 12.5170, 41.8970, #0057ba, ../project1/index.html?embed=1, dPxnq4Od_UQ
+Rome - Bravetta, 12.4250, 41.8670, #0057ba, ../project1/index.html?embed=1, S6jCujUcUXM
+Zürich - Egg, 8.6640, 47.3050, #0057ba, ../project1/index.html?embed=1, lkkUJTRRj9I
+Zürich - Langstrasse, 8.5290, 47.3785,#0057ba, ../project1/index.html?embed=1, WQNK4zPQSs0
+Schwetzingen - Hierschacker, 8.5810, 49.3720, #0057ba, ../project1/index.html?embed=1, vTvg_9zjgNI
+Olevano Romano, 12.9958, 41.8447, #0057ba, ../project1/index.html?embed=1, sB4Td-mUeLg
+Lugano, 8.9511, 46.0037, #0057ba, ../project1/index.html?embed=1, a9htPapDV2U
+Somewhere in Germany..., 10.4515, 51.1657, #0057ba, ../project1/index.html?embed=1, _jsq6nN56po
+
+#GREEN (1b8e13)
+Mannheim, 8.4660, 49.4875, #1b8e13,,
+Nalchik, 43.6180, 43.4981, #1b8e13,,
+Pawlodar, 76.9674, 52.2873, #1b8e13,,
+Havanna, -82.3666, 23.1136, #1b8e13,,
+Sankt Petersburg, 30.3351, 59.9343, #1b8e13,,
+Sudak, 34.9740, 44.8510, #1b8e13,,
+Volgagerman Republik, 46.1217, 51.4854, #1b8e13,,
+
